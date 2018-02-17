@@ -1,0 +1,19 @@
+﻿<Window x:Class="InfoCapture.Sample.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://www.codeplex.com/prism"
+        Title="InfoCapture.Sample - Order Tracking System" WindowState="Maximized">
+    
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="bool2Visibility"/>
+    </Window.Resources>
+    
+    <DockPanel LastChildFill="True" Margin="5">
+        <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+            <TextBlock Margin="5" Text="{Binding CurrentUser.FirstName}" DockPanel.Dock="Right" FontWeight="Bold"/>
+            <Button Margin="5" Content="Cart" Command="{Binding NavigateToShoppingCartViewCommand}" DockPanel.Dock="Right" Visibility="{Binding CanViewCart, Converter={StaticResource bool2Visibility}}"/>
+        </DockPanel>
+        <ContentControl DockPanel.Dock="Left" prism:RegionManager.RegionName="LeftPane"/>
+        <ContentControl DockPanel.Dock="Right" prism:RegionManager.RegionName="RightPane"/>
+    </DockPanel>
+</Window>

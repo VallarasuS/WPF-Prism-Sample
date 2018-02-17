@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="InfoCapture.Sample.UI.Views.ShoppingCartView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:util="clr-namespace:InfoCapture.Sample.UI.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <util:OrderStateToVisibilityConverter x:Key="state2Visibility"/>
+    </UserControl.Resources>
+    <Grid>
+        <DockPanel LastChildFill="True">
+            <Button DockPanel.Dock="Top" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Shop More" Command="{Binding NavigateToProductsCommand}"/>
+            <ListView ItemsSource="{Binding Orders}" DockPanel.Dock="Bottom" HorizontalContentAlignment="Stretch">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel LastChildFill="True" Margin="0,10">
+                        <TextBlock Margin="10,0" Text="{Binding OrderID, StringFormat=Order ID  {0}}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                        <TextBlock Margin="10,0" Text="{Binding OrderState, StringFormat=Order State  {0}}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                        <Button Margin="10,0" Visibility="{Binding OrderState, Converter={StaticResource state2Visibility}}" CommandParameter="{Binding}" Command="{Binding DataContext.PlaceOrderCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" Content="Buy" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                        <TextBlock Margin="10,0" Text="{Binding Prize, StringFormat=Total   {0}}" VerticalAlignment="Bottom" DockPanel.Dock="Right"/>
+                        <ListView ItemsSource="{Binding Entries}" HorizontalContentAlignment="Stretch">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                        <DockPanel LastChildFill="True">
+                                            <Button Content="x" Visibility="{Binding DataContext.OrderState, RelativeSource={RelativeSource AncestorType=ListViewItem, AncestorLevel=2},  Converter={StaticResource state2Visibility}}" ToolTip="Remove entry" Width="25" Height="25" DockPanel.Dock="Right" CommandParameter="{Binding}"  Command="{Binding DataContext.RemoveEntryCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                            <TextBlock Margin="20,0" VerticalAlignment="Center" Text="{Binding Quantity}" DockPanel.Dock="Right"/>
+                                            <TextBlock  Margin="20,0" VerticalAlignment="Center"  Text="Quantity" DockPanel.Dock="Right"/>
+                                            <TextBlock Margin="20,0" VerticalAlignment="Center" Text="{Binding Product.Prize}" DockPanel.Dock="Right"/>
+                                            <TextBlock Margin="20,0" VerticalAlignment="Center" Text="Prize" DockPanel.Dock="Right"/>
+                                            <TextBlock VerticalAlignment="Center"  Margin="5" Text="{Binding Product.Name}" DockPanel.Dock="Left"/>
+                                        </DockPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </DockPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        </DockPanel>
+    </Grid>
+</UserControl>
